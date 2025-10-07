@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toko Online - Demo</title>
+  <style>
+    :root{--bg:#f6f7fb;--card:#ffffff;--accent:#0066ff;--muted:#69708a;--glass: rgba(255,255,255,0.6)}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,var(--bg),#eef2fb); color:#111}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:transparent}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#42a5f5);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav a{margin:0 10px;color:var(--muted);text-decoration:none;font-weight:600}
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    .ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px}
+
+    .container{max-width:1100px;margin:28px auto;padding:0 18px}
+    .hero{display:flex;gap:30px;align-items:center;background: linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9));padding:28px;border-radius:18px;box-shadow:0 6px 18px rgba(33,33,66,0.06)}
+    .hero-left{flex:1}
+    .hero h1{margin:0;font-size:28px}
+    .hero p{color:var(--muted);margin:12px 0 18px}
+    .search{display:flex;gap:8px}
+    .search input{flex:1;padding:10px 12px;border-radius:12px;border:1px solid #e6e9f2}
+
+    .products{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(31,41,71,0.05);display:flex;flex-direction:column;gap:12px}
+    .imgwrap{height:160px;border-radius:10px;background:linear-gradient(180deg,#f8fafc,#eef7ff);display:flex;align-items:center;justify-content:center;font-size:48px;color:#cfe8ff}
+    .title{font-weight:700}
+    .price{color:var(--accent);font-weight:800}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .tag{background:#f1f6ff;padding:6px 8px;border-radius:8px;font-size:12px;color:#1a6bff}
+
+    .cart-btn{position:fixed;right:22px;bottom:22px;background:var(--accent);color:#fff;padding:14px 18px;border-radius:14px;box-shadow:0 8px 30px rgba(33,110,255,0.18);border:none;cursor:pointer}
+
+    /* Cart drawer */
+    .drawer{position:fixed;right:0;top:0;height:100vh;width:360px;background:#fff;box-shadow:-12px 0 40px rgba(17,24,39,0.08);transform:translateX(110%);transition:transform .28s ease;display:flex;flex-direction:column}
+    .drawer.open{transform:translateX(0)}
+    .drawer .head{padding:18px;border-bottom:1px solid #f1f3f8;display:flex;justify-content:space-between;align-items:center}
+    .drawer .body{padding:18px;overflow:auto;flex:1}
+    .drawer .foot{padding:18px;border-top:1px solid #f1f3f8}
+    .cart-item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed #f1f3f8}
+
+    footer{margin:28px 0 70px;color:var(--muted);text-align:center}
+
+    @media (max-width:720px){.hero{flex-direction:column}.drawer{width:100%}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">JP</div>
+      <div>
+        <div style="font-weight:800">TokoJual</div>
+        <div style="font-size:12px;color:var(--muted)">Pilihan produk terbaik</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#produk">Produk</a>
+      <a href="#about">Tentang</a>
+    </nav>
+    <div class="actions">
+      <button class="ghost">Masuk</button>
+      <button id="openCart" class="btn">Keranjang (0)</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Belanja kebutuhanmu tanpa ribet</h1>
+        <p>Pilih produk berkualitas, harga bersaing, dan layanan cepat. Contoh tampilan toko online sederhana untuk demo.</p>
+        <div class="search">
+          <input id="search" placeholder="Cari produk... contoh: kaos, sepatu" />
+          <button class="btn" id="searchBtn">Cari</button>
+        </div>
+      </div>
+      <div class="hero-right" style="width:320px">
+        <div style="background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(31,41,71,0.04)">
+          <div style="font-weight:700">Promo Hari Ini</div>
+          <div style="color:var(--muted);margin-top:8px">Diskon hingga 30% untuk produk pilihan.</div>
+          <div style="margin-top:12px;display:flex;gap:8px"><button class="btn">Lihat Promo</button><button class="ghost">Daftar</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="produk" class="products" aria-label="Daftar produk">
+      <!-- Product cards injected by JS -->
+    </section>
+
+    <footer>
+      © 2025 TokoJual — dibuat sebagai demo.
+    </footer>
+  </main>
+
+  <button id="cartFloating" class="cart-btn">🛒 <span id="floatCount">0</span></button>
+
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="head">
+      <div style="font-weight:800">Keranjang Anda</div>
+      <button id="closeDrawer" class="ghost">Tutup</button>
+    </div>
+    <div class="body" id="cartBody">
+      <div style="color:var(--muted)">Keranjang kosong — tambahkan produk.</div>
+    </div>
+    <div class="foot">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="color:var(--muted)">Subtotal</div><div id="subtotal">Rp0</div></div>
+      <button id="checkout" class="btn" style="width:100%">Checkout</button>
+    </div>
+  </aside>
+
+  <script>
+    // Sample product data
+    const products = [
+      {id:1,title:'Kaos Polos Premium',price:75000,tag:'Bestseller'},
+      {id:2,title:'Sneakers Sport',price:325000,tag:'Baru'},
+      {id:3,title:'Tote Bag Kanvas',price:89000,tag:'Populer'},
+      {id:4,title:'Botol Minum Stainless',price:120000,tag:'Hemat'},
+      {id:5,title:'Topi Snapback',price:65000,tag:'Diskon'},
+      {id:6,title:'Kaos Kaki 3 Pasang',price:40000,tag:'Paket'}
+    ];
+
+    const productsEl = document.querySelector('.products');
+    const cart = {};
+
+    function formatRupiah(n){return 'Rp'+n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+
+    function renderProducts(list){
+      productsEl.innerHTML = '';
+      list.forEach(p=>{
+        const card = document.createElement('article'); card.className='card';
+        card.innerHTML = `
+          <div class="imgwrap">🛍</div>
+          <div class="title">${p.title}</div>
+          <div style="color:var(--muted);font-size:13px">Deskripsi singkat produk untuk demo.</div>
+          <div class="meta">
+            <div class="price">${formatRupiah(p.price)}</div>
+            <div class="tag">${p.tag}</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="ghost" onclick="addToCart(${p.id})">Tambah</button>
+            <button class="btn" onclick="buyNow(${p.id})">Beli Sekarang</button>
+          </div>
+        `;
+        productsEl.appendChild(card);
+      })
+    }
+
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      if(!cart[id]) cart[id]={...p, qty:0};
+      cart[id].qty++;
+      updateCartUI();
+      openDrawer();
+    }
+
+    function buyNow(id){ addToCart(id); alert('Produk ditambahkan ke keranjang. Lanjutkan ke checkout.'); }
+
+    function updateCartUI(){
+      const body = document.getElementById('cartBody');
+      const floatCount = document.getElementById('floatCount');
+      const count = Object.values(cart).reduce((s,i)=>s+i.qty,0);
+      floatCount.textContent = count;
+      document.getElementById('openCart').textContent = `Keranjang (${count})`;
+      if(count===0){ body.innerHTML = '<div style="color:var(--muted)">Keranjang kosong — tambahkan produk.</div>'; document.getElementById('subtotal').textContent='Rp0'; return }
+      body.innerHTML = '';
+      let subtotal = 0;
+      Object.values(cart).forEach(item=>{
+        subtotal += item.price * item.qty;
+        const el = document.createElement('div'); el.className='cart-item';
+        el.innerHTML = `
+          <div style="width:56px;height:56px;border-radius:8px;background:#f8fafc;display:flex;align-items:center;justify-content:center">🛍</div>
+          <div style="flex:1">
+            <div style="font-weight:700">${item.title}</div>
+            <div style="color:var(--muted);font-size:13px">${formatRupiah(item.price)} x ${item.qty}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button onclick="changeQty(${item.id},1)" style="border:none;background:#f1f5ff;padding:6px;border-radius:8px;cursor:pointer">＋</button>
+            <button onclick="changeQty(${item.id},-1)" style="border:none;background:#fff0f0;padding:6px;border-radius:8px;cursor:pointer">－</button>
+          </div>
+        `;
+        body.appendChild(el);
+      })
+      document.getElementById('subtotal').textContent = formatRupiah(subtotal);
+    }
+
+    function changeQty(id,delta){
+      if(!cart[id]) return;
+      cart[id].qty += delta;
+      if(cart[id].qty<=0) delete cart[id];
+      updateCartUI();
+    }
+
+    // Drawer controls
+    const drawer = document.getElementById('drawer');
+    function openDrawer(){ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); }
+    function closeDrawer(){ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); }
+    document.getElementById('openCart').addEventListener('click',openDrawer);
+    document.getElementById('cartFloating').addEventListener('click',openDrawer);
+    document.getElementById('closeDrawer').addEventListener('click',closeDrawer);
+
+    document.getElementById('checkout').addEventListener('click',()=>{
+      if(Object.keys(cart).length===0) return alert('Keranjang masih kosong.');
+      // Demo checkout flow
+      alert('Simulasi checkout — total: '+document.getElementById('subtotal').textContent);
+    })
+
+    // Search
+    document.getElementById('searchBtn').addEventListener('click',()=>{
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      if(!q) return renderProducts(products);
+      const res = products.filter(p=>p.title.toLowerCase().includes(q));
+      renderProducts(res);
+    })
+
+    // Initial render
+    renderProducts(products);
+    updateCartUI();
+  </script>
+</body>
+</html>
